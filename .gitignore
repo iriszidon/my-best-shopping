@@ -1,0 +1,24 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+#allure
+allure-*
