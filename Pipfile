@@ -8,6 +8,7 @@ pytest = "*"
 playwright = "*"
 pytest-playwright = "*"
 allure-pytest = "*"
+black = "*"
 
 [dev-packages]
 

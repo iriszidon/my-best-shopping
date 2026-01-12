@@ -11,14 +11,17 @@ from python_tool_shop.page_objects.main_page import MainPage
 
 @pytest.fixture()
 def setup_playwright(playwright, request):
-    headed = request.config.getoption("--headed", default=False) # determine when will the UI be displayed
+    headed = request.config.getoption(
+        "--headed", default=False
+    )  # determine when will the UI be displayed
     browser = playwright.chromium.launch(headless=not headed)
     page = browser.new_page()  # This will open the page
     try:
-        yield page # use yield and not return because we want to close the browser if the test fails.
+        yield page  # use yield and not return because we want to close the browser if the test fails.
     finally:
         log_message(logger, "closing browser", LogLevel.INFO)
         browser.close()
+
 
 @pytest.fixture()
 def setup_load_page(setup_playwright):
@@ -27,12 +30,14 @@ def setup_load_page(setup_playwright):
     log_message(logger, f"navigate to {URL}", LogLevel.INFO)
     yield login_page
 
+
 @pytest.fixture()
 def setup_main_page(setup_playwright):
     main_page = MainPage(setup_playwright)
     main_page.navigate_to(URL)
     log_message(logger, f"navigate to {URL}", LogLevel.INFO)
     return main_page
+
 
 # Creates instances of all the pages. Add every new created page into this fixture
 @pytest.fixture()
@@ -41,7 +46,7 @@ def setup_all_pages(setup_playwright):
     main_page = MainPage(setup_playwright)
     yield login_page, main_page
 
+
 @pytest.fixture()
 def validation(setup_all_pages):
     yield AppValidation(setup_all_pages)
-
