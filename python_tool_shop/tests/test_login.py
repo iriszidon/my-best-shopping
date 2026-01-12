@@ -31,9 +31,21 @@ def test_home_page_is_loaded_should_have_top_bar(setup_main_page):
 @pytest.mark.good_experimental_test
 def test_home_page_is_loaded_should_have_top_bar(setup_playwright):
     main_page = MainPage(setup_playwright)
-    main_page.navigate_to("https://www.morfix.co.il/")
+    # main_page.navigate_to("https://www.morfix.co.il/")
     main_page.navigate_to("https://practicesoftwaretesting.com/")
     assert main_page.top_bar.is_visible(), "top bar should be visible"
+
+@pytest.mark.good_experimental_test
+def test_end_to_end_search_filter_add_sum(setup_playwright):
+    # search a product
+    # filter by price
+    # add to cart
+    # verify that the total price is x
+    main_page = MainPage(setup_playwright)
+    main_page.navigate_to("https://practicesoftwaretesting.com/")
+    items_urls = main_page.search_items_by_name_under_price("hammer", 220, 5)
+    main_page.add_items_to_cart(items_urls)
+    main_page.assert_cart_total_not_exceeds(220, len(items_urls))
 
 
 @allure.description("Sample for parametrized test")
