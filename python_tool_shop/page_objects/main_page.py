@@ -24,6 +24,7 @@ class MainPage(BasePage):
         self.type_text(self.search_test_box, query)
         self.click_element(self.search_button)
         # use min/max filter if exists
+        self.set_slider(max_price)
         # get  first 5 (limit) items that have a price <= max_price
         # in case of less than 5 items exist:
         # if there is a next button, click next and get items from next page
@@ -51,3 +52,17 @@ class MainPage(BasePage):
         # verify that budget_per_item * items_count <= limit
         # take a screenshot of the cart
         pass
+
+
+    def set_slider(self, target) -> None:
+        slider = self.page.locator(".ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-max")
+        cur_val = 100
+        # Focus and nudge with ArrowRight until we reach/approach the target
+        slider.focus()
+        # Sometimes sliders change by step=1; guard against infinite loops
+        for _ in range(cur_val):  # upper bound to avoid runaway
+            cur = int(slider.get_attribute("aria-valuenow"))
+            if cur >= target:
+                break
+            slider.press("ArrowLeft")
+

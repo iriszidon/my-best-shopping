@@ -31,9 +31,11 @@ class BasePage:
 
     def click_element(self, locator: Locator):
         self.safe_execute(locator.click, "click_element")
+        # log_message(self.logger,f"Chosen locator: {locator}",LogLevel.INFO)
 
     def type_text(self, locator: Locator, text: str):
         self.safe_execute(locator.fill, "type_text", text)
+        # log_message(self.logger, f"Chosen locator: {locator}", LogLevel.INFO)
 
     def navigate_to(self, url: str):
         self.safe_execute(self.page.goto, "navigate_to", url)
