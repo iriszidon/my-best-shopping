@@ -41,3 +41,6 @@ class BasePage:
 
     def wait_for_selector_to_appear(self, locator: Locator):
         self.safe_execute(locator.wait_for, "wait_for_selector")
+
+    def wait_to_see_in_page(self, selector: str):
+        self.safe_execute(self.page.wait_for_selector, "navigate_to", selector)
