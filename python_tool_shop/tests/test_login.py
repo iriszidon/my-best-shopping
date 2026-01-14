@@ -2,11 +2,28 @@ import allure
 import pytest
 from playwright.sync_api import expect
 from pytest_playwright.pytest_playwright import playwright
-
+import os
 from conftest import setup_main_page
 from page_objects.main_page import MainPage
 from python_tool_shop.helper.config import VALID_CREDENTIALS
 
+
+@allure.description("Test for tool shop website")
+@pytest.mark.good_experimental_test
+@pytest.mark.parametrize(
+    "tool_name, max_price, limit", [("hammer", 20, 5)]
+)
+def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_playwright):
+    # search a product, filter by price, add to cart
+    main_page = MainPage(setup_playwright)
+    base_url = os.environ.get("BASE_URL")
+    main_page.navigate_to(base_url)
+    items_urls = main_page.search_items_by_name_under_price(tool_name, max_price, limit)
+    main_page.add_items_to_cart(items_urls)
+    # verify that the total price is x
+    main_page.assert_cart_total_not_exceeds(limit* max_price, len(items_urls))
+
+# -----------------Experiments -------------------------------------------
 
 @pytest.mark.skip(reason="The shopping test website disposes all users")
 def test_successfully_login(setup_load_page, validation):
@@ -39,21 +56,6 @@ def test_home_page_is_loaded_should_have_top_bar(setup_playwright):
     # main_page.navigate_to("https://www.morfix.co.il/")
     main_page.navigate_to("https://practicesoftwaretesting.com/")
     assert main_page.top_bar.is_visible(), "top bar should be visible"
-
-
-@pytest.mark.good_experimental_test
-def test_end_to_end_search_filter_add_sum(setup_playwright):
-    # search a product
-    # filter by price
-    # add to cart
-    # verify that the total price is x
-    main_page = MainPage(setup_playwright)
-    main_page.navigate_to("https://practicesoftwaretesting.com/")
-    assert main_page.search_button.is_visible(), "search_button should be visible"
-    items_urls = main_page.search_items_by_name_under_price("hammer", 220, 5)
-    main_page.add_items_to_cart(items_urls)
-    main_page.assert_cart_total_not_exceeds(220, len(items_urls))
-
 
 @allure.description("Sample for parametrized test")
 @pytest.mark.parametrize(
