@@ -20,6 +20,9 @@ class MainPage(BasePage):
         self.search_text_box = self.page.locator("#search-query, [data-test='search-query'], [placeholder=Search]")
         self.open_cart_button = self.navigation_bar.locator("#lblCartCount")
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
+        self.home_button = self.page.get_by_text("Home").or_(self.page.locator("[data-test='nav-home']").or_(self.page.locator("[aria-current='page']")))
+        self.home_page_button_ness = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
+        self.contact_button_ness = self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
 
     def login(self):
         pass
