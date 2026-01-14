@@ -1,8 +1,9 @@
 import logging
 from asyncio import timeout
+from concurrent.interpreters import create
 
-from playwright.sync_api import Page, Locator
-
+from playwright.sync_api import Page, Locator, expect
+from typing import List
 from python_tool_shop.helper.utils import LogLevel
 
 from python_tool_shop.helper.utils import take_screenshot, log_message
@@ -29,6 +30,31 @@ class BasePage:
             )
             take_screenshot(self.page, action_name)
             raise
+
+    def get_winner_locator(self, locator_list :List[str]) -> str:
+        index = 0
+        for locator in locator_list:
+            index +=1
+            try:
+                is_element_visible = self.page.locator(locator).is_visible()
+                if is_element_visible:
+                    log_message(self.logger, f"Attempt #{index} with Locator: {locator} succeeded ;)")
+                    return locator
+                else:
+                    log_message(self.logger, f"Attempt #{index} with Locator: {locator} failed ;(")
+            except Exception as e:
+                take_screenshot(self.page, locator)
+                log_message(self.logger, f"The element was not found")
+
+    def split_selectors(self, selector_string: str) -> List[str]:
+        # Split by comma and strip whitespace around each part
+        return [part.strip() for part in selector_string.split(",")]
+
+    def find_element(self, loc_str:str) -> Locator:
+        loc_list = self.split_selectors(loc_str)
+        winner_loc_str = self.get_winner_locator(loc_list)
+        return self.page.locator(winner_loc_str)
+
 
     def click_element(self, locator: Locator):
         self.safe_execute(locator.click, "click_element")
