@@ -21,32 +21,3 @@ def setup_playwright(playwright, request):
     finally:
         log_message(logger, "closing browser", LogLevel.INFO)
         browser.close()
-
-
-@pytest.fixture()
-def setup_load_page(setup_playwright):
-    login_page = LoginPage(setup_playwright)
-    login_page.navigate_to(URL)
-    log_message(logger, f"navigate to {URL}", LogLevel.INFO)
-    yield login_page
-
-
-@pytest.fixture()
-def setup_main_page(setup_playwright):
-    main_page = MainPage(setup_playwright)
-    main_page.navigate_to(URL)
-    log_message(logger, f"navigate to {URL}", LogLevel.INFO)
-    return main_page
-
-
-# Creates instances of all the pages. Add every new created page into this fixture
-@pytest.fixture()
-def setup_all_pages(setup_playwright):
-    login_page = LoginPage(setup_playwright)
-    main_page = MainPage(setup_playwright)
-    yield login_page, main_page
-
-
-@pytest.fixture()
-def validation(setup_all_pages):
-    yield AppValidation(setup_all_pages)
