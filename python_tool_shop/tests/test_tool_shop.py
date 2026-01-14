@@ -7,7 +7,7 @@ from page_objects.main_page import MainPage
 @allure.description("Test for tool shop website")
 @pytest.mark.good_experimental_test
 @pytest.mark.parametrize(
-    "tool_name, max_price, limit", [("hammer", 20, 5)]
+    "tool_name, max_price, limit", [("hammer", 20, 5), ("pliers", 19, 2)]
 )
 def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_playwright):
     # search a product, filter by price, add to cart
