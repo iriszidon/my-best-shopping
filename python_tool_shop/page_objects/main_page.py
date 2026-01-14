@@ -2,6 +2,8 @@ from playwright.sync_api import Page
 from typing import List
 import allure
 import os
+
+from python_tool_shop.page_objects.cart_page import CartPage
 from python_tool_shop.helper.utils import take_screenshot
 from python_tool_shop.page_objects.base_page import BasePage
 
@@ -14,7 +16,9 @@ class MainPage(BasePage):
         self.add_to_cart_button = self.page.locator("#btn-add-to-cart, [data-test='add-to-cart'], button.btn-success.btn")
         self.home_page_button = self.page.locator("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
         self.toast_message = self.page.locator(".toast-message")
-        self.search_test_box = self.page.locator("#search-query, [data-test='search-query'], [placeholder=Search]")
+        self.navigation_bar = self.page.locator("#navbarSupportedContent")
+        self.search_text_box = self.page.locator("#search-query, [data-test='search-query'], [placeholder=Search]")
+        self.open_cart_button = self.navigation_bar.locator("#lblCartCount")
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
 
     def login(self):
@@ -25,11 +29,11 @@ class MainPage(BasePage):
         self, query: str, max_price: int, limit=5
     ) -> List[str]:
         # search by a query
-        self.type_text(self.search_test_box, query)
+        self.type_text(self.search_text_box, query)
         self.click_element(self.search_button)
         # use min/max filter if exists
         # wait for text Searched for: hammer
-        self.page.wait_for_selector('[data-test="search-term"]', timeout=60)
+        self.wait_to_see_in_page('[data-test="search-term"]')
         self.set_slider(max_price)
         # get  first 5 (limit) items that have a price <= max_price
         item_list = self.get_items_url_list(limit)
@@ -55,18 +59,7 @@ class MainPage(BasePage):
             self.click_element(self.home_page_button)
 
 
-    @allure.step("assert cart total not exceeds")
-    def assert_cart_total_not_exceeds(
-        self, budget_per_item: int, items_count: int
-    ) -> None:
-        # open that cart
-        # read to total amount
-        # Calculate budget_per_item * items_count
-        # verify that budget_per_item * items_count <= limit
-        # take a screenshot of the cart
-        pass
-
-
+    @allure.step("set the slider to narrow the price range")
     def set_slider(self, target) -> None:
         slider = self.page.locator(".ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-max")
         cur_val = 100
@@ -79,6 +72,7 @@ class MainPage(BasePage):
                 break
             slider.press("ArrowLeft")
 
+    @allure.step("Add items to the wish list")
     def get_items_url_list(self, limit: int) -> List[str]:
         url_list = []
         base_url = os.environ.get("BASE_URL")
@@ -90,3 +84,8 @@ class MainPage(BasePage):
         self.logger.info(prefixed_href_list)
         return prefixed_href_list
 
+    @allure.step("Open shopping cart")
+    def open_cart_page(self, setup_playwright) -> CartPage:
+        self.click_element(self.open_cart_button)
+        cart_page = CartPage(setup_playwright)
+        return cart_page

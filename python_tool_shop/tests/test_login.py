@@ -20,8 +20,11 @@ def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_pla
     main_page.navigate_to(base_url)
     items_urls = main_page.search_items_by_name_under_price(tool_name, max_price, limit)
     main_page.add_items_to_cart(items_urls)
-    # verify that the total price is x
-    main_page.assert_cart_total_not_exceeds(limit* max_price, len(items_urls))
+    # verify that the total price is less than x
+    cart_page = main_page.open_cart_page(setup_playwright)
+    total_price = cart_page.get_total_price()
+    assert total_price <= limit * max_price
+    # cart_page.assert_cart_total_not_exceeds(limit * max_price, len(items_urls))
 
 # -----------------Experiments -------------------------------------------
 
