@@ -1,6 +1,5 @@
 import allure
 from playwright.sync_api import Page
-from playwright.async_api import expect
 
 from python_tool_shop.page_objects.base_page import BasePage
 from python_tool_shop.page_objects.main_page import MainPage
