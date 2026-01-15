@@ -5,7 +5,7 @@ import pytest
 from python_tool_shop.helper.config import URL
 from python_tool_shop.helper.utils import log_message, LogLevel
 from python_tool_shop.helper.validation import AppValidation
-from python_tool_shop.page_objects.login_page import LoginPage
+# from python_tool_shop.page_objects.login_page import LoginPage
 from python_tool_shop.page_objects.main_page import MainPage
 
 
