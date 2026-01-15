@@ -65,9 +65,8 @@ class BasePage:
     def navigate_to(self, url: str):
         self.safe_execute(self.page.goto, "navigate_to", url)
 
-    def wait_for_selector_to_appear(self, locator: Locator):
-        # self.safe_execute(locator.wait_for, "wait_for_selector")
+    def wait_for_toaster_message_to_appear(self):
         self.page.wait_for_timeout(1*1000)
 
     def wait_to_see_in_page(self, selector: str):
-        self.safe_execute(self.page.wait_for_selector, "navigate_to", selector)
+        self.safe_execute(self.page.wait_for_selector, "wait_to", selector)
