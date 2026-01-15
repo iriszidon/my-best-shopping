@@ -11,10 +11,7 @@ from page_objects.base_page import BasePage
     "tool_name, max_price, limit", [("hammer", 20, 5), ("pliers", 19, 2)]
 )
 def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_playwright):
-    # search a product, filter by price, add to cart
-    base_url = os.environ.get("BASE_URL")
-    base_page = BasePage(setup_playwright)
-    base_page.navigate_to(base_url)
+    base_page = navigate_to_page(setup_playwright)
     main_page = MainPage(base_page.page)
     items_urls = main_page.search_items_by_name_under_price(tool_name, max_price, limit)
     main_page.add_items_to_cart(items_urls)
@@ -24,9 +21,7 @@ def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_pla
 
 @allure.description("Click on 2 elements in the main page")
 def test_print_locator(setup_playwright) -> None:
-    base_page = BasePage(setup_playwright)
-    base_url = os.environ.get("BASE_URL")
-    base_page.navigate_to(base_url)
+    base_page = navigate_to_page(setup_playwright)
     main_page = MainPage(base_page.page)
     main_page.click_element(main_page.contact_button)
     main_page.click_element(main_page.home_page_button)
