@@ -13,7 +13,7 @@ class CartPage(BasePage):
 
     @allure.step("Get total amount")
     def get_total_price(self) -> float:
-        self.wait_for_selector_to_appear(self.cart_total)
+        self.wait_for_toaster_message_to_appear()
         total_amount = self.cart_total.text_content()
         float_total_amount = float(total_amount[1:])
         take_screenshot(self.page, "shopping_cart")

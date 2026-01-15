@@ -17,8 +17,7 @@ class MainPage(BasePage):
         self.navigation_bar = self.find_element("#navbarSupportedContent")
         self.search_text_box = self.find_element("#search-query, [data-test='search-query'], [placeholder=Search]")
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
-        self.home_page_button_ness = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
-        self.contact_button_ness = self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
+        self.contact_button= self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
 
     def login(self):
         pass

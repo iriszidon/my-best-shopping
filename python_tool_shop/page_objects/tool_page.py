@@ -9,17 +9,16 @@ class ToolPage(BasePage):
         super().__init__(page)
         # All locators are defined when an instance of the page is created.
         self.add_to_cart_button = self.find_element("[data-test='add-to-cart'], #btn-add-to-cart, button.btn-success.btn")
-        self.toast_message = self.find_element(".toast-message")
         self.home_page_button = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
 
 
     @allure.step("Add a tool into the cart")
     def add_item_to_cart(self, url:str) -> None:
-        self.wait_for_selector_to_appear(self.add_to_cart_button)
+        self.page.wait_for_load_state("load")
         # take screenshot foreach selected item
         take_screenshot(self.page, name=url[-27:])
         self.click_element(self.add_to_cart_button)
-        self.wait_for_selector_to_appear(self.toast_message)
+        self.wait_for_toaster_message_to_appear()
         # go back to search page
         self.click_element(self.home_page_button)
 
