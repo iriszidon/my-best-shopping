@@ -3,10 +3,8 @@ from typing import List
 import allure
 import os
 
-# from conftest import setup_playwright
 from python_tool_shop.page_objects.tool_page import ToolPage
 from python_tool_shop.page_objects.cart_page import CartPage
-from python_tool_shop.helper.utils import take_screenshot
 from python_tool_shop.page_objects.base_page import BasePage
 
 
@@ -15,14 +13,10 @@ class MainPage(BasePage):
         super().__init__(page)
         # All locators are defined when an instance of the page is created.
         self.search_button = self.find_element("[data-test='search-submit'], button.btn.btn-secondary:has-text('Search')")
-        # self.add_to_cart_button = self.find_element("[data-test='add-to-cart'], #btn-add-to-cart, button.btn-success.btn")
         self.home_page_button = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
-        # self.toast_message = self.find_element(".toast-message")
         self.navigation_bar = self.find_element("#navbarSupportedContent")
         self.search_text_box = self.find_element("#search-query, [data-test='search-query'], [placeholder=Search]")
-        # self.open_cart_button = self.find_element('[data-icon=\'cart-shopping\'], [data-test=\'cart-quantity\'] ]')
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
-        # self.home_button = self.page.get_by_text("Home").or_(self.page.locator("[data-test='nav-home']").or_(self.page.locator("[aria-current='page']")))
         self.home_page_button_ness = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
         self.contact_button_ness = self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
 
@@ -43,27 +37,13 @@ class MainPage(BasePage):
         # get  first 5 (limit) items that have a price <= max_price
         item_list = self.get_items_url_list(limit)
         # in case of less than 5 items exist:
-        # if there is a next button, click next and get items from next page
-        # if no paging, get less than 5 items
-        # return a url array of 5 items that meet the condition, or less.
-        # example urls = search_items_by_name_under_price("hammer", 220, 5)
         return item_list
 
     @allure.step("add items to cart")
     def add_items_to_cart(self, urls: List[str]) -> None:
-        # foreach url go to url
-        for url in urls:  # upper bound to avoid runaway
+        for url in urls:
             tool_page = self.open_tool_page(url)
-            # create instace of tool_page
             tool_page.add_item_to_cart(url)
-            # take screenshot foreach selected item
-            # take_screenshot(self.page, name=url[-27:])
-            # click add to cart
-            # self.click_element(self.add_to_cart_button)
-            # wait for text product added to shopping cart
-            # self.wait_for_selector_to_appear(self.toast_message)
-            # go back to search page
-            # self.click_element(self.home_page_button)
 
 
     @allure.step("set the slider to narrow the price range")
