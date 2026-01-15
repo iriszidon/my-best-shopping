@@ -31,6 +31,12 @@ class BasePage:
             take_screenshot(self.page, action_name)
             raise
 
+    def find_element(self, loc_str:str) -> Locator:
+        loc_list = self.split_selectors(loc_str)
+        winner_loc_str = self.get_winner_locator(loc_list)
+        log_message(self.logger, f"Winner locator is: {winner_loc_str} ----")
+        return self.page.locator(winner_loc_str)
+
     def get_winner_locator(self, locator_list :List[str]) -> str:
         index = 0
         for locator in locator_list:
@@ -50,12 +56,6 @@ class BasePage:
         # Split by comma and strip whitespace around each part
         return [part.strip() for part in selector_string.split(",")]
 
-    def find_element(self, loc_str:str) -> Locator:
-        loc_list = self.split_selectors(loc_str)
-        winner_loc_str = self.get_winner_locator(loc_list)
-        return self.page.locator(winner_loc_str)
-
-
     def click_element(self, locator: Locator):
         self.safe_execute(locator.click, "click_element")
 
@@ -66,7 +66,8 @@ class BasePage:
         self.safe_execute(self.page.goto, "navigate_to", url)
 
     def wait_for_selector_to_appear(self, locator: Locator):
-        self.safe_execute(locator.wait_for, "wait_for_selector")
+        # self.safe_execute(locator.wait_for, "wait_for_selector")
+        self.page.wait_for_timeout(1*1000)
 
     def wait_to_see_in_page(self, selector: str):
         self.safe_execute(self.page.wait_for_selector, "navigate_to", selector)
