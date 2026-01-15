@@ -3,6 +3,8 @@ from typing import List
 import allure
 import os
 
+# from conftest import setup_playwright
+from python_tool_shop.page_objects.tool_page import ToolPage
 from python_tool_shop.page_objects.cart_page import CartPage
 from python_tool_shop.helper.utils import take_screenshot
 from python_tool_shop.page_objects.base_page import BasePage
@@ -12,15 +14,15 @@ class MainPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
         # All locators are defined when an instance of the page is created.
-        self.search_button = self.page.locator("[data-test='search-submit'], button.btn.btn-secondary:has-text('Search')")
-        self.add_to_cart_button = self.page.locator("#btn-add-to-cart, [data-test='add-to-cart'], button.btn-success.btn")
-        self.home_page_button = self.page.locator("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
-        self.toast_message = self.page.locator(".toast-message")
-        self.navigation_bar = self.page.locator("#navbarSupportedContent")
-        self.search_text_box = self.page.locator("#search-query, [data-test='search-query'], [placeholder=Search]")
-        self.open_cart_button = self.navigation_bar.locator("#lblCartCount")
+        self.search_button = self.find_element("[data-test='search-submit'], button.btn.btn-secondary:has-text('Search')")
+        # self.add_to_cart_button = self.find_element("[data-test='add-to-cart'], #btn-add-to-cart, button.btn-success.btn")
+        self.home_page_button = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
+        # self.toast_message = self.find_element(".toast-message")
+        self.navigation_bar = self.find_element("#navbarSupportedContent")
+        self.search_text_box = self.find_element("#search-query, [data-test='search-query'], [placeholder=Search]")
+        # self.open_cart_button = self.find_element('[data-icon=\'cart-shopping\'], [data-test=\'cart-quantity\'] ]')
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
-        self.home_button = self.page.get_by_text("Home").or_(self.page.locator("[data-test='nav-home']").or_(self.page.locator("[aria-current='page']")))
+        # self.home_button = self.page.get_by_text("Home").or_(self.page.locator("[data-test='nav-home']").or_(self.page.locator("[aria-current='page']")))
         self.home_page_button_ness = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
         self.contact_button_ness = self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
 
@@ -51,15 +53,17 @@ class MainPage(BasePage):
     def add_items_to_cart(self, urls: List[str]) -> None:
         # foreach url go to url
         for url in urls:  # upper bound to avoid runaway
-            self.navigate_to(url)
+            tool_page = self.open_tool_page(url)
+            # create instace of tool_page
+            tool_page.add_item_to_cart(url)
             # take screenshot foreach selected item
-            take_screenshot(self.page, name=url[-27:])
+            # take_screenshot(self.page, name=url[-27:])
             # click add to cart
-            self.click_element(self.add_to_cart_button)
+            # self.click_element(self.add_to_cart_button)
             # wait for text product added to shopping cart
-            self.wait_for_selector_to_appear(self.toast_message)
+            # self.wait_for_selector_to_appear(self.toast_message)
             # go back to search page
-            self.click_element(self.home_page_button)
+            # self.click_element(self.home_page_button)
 
 
     @allure.step("set the slider to narrow the price range")
@@ -88,7 +92,15 @@ class MainPage(BasePage):
         return prefixed_href_list
 
     @allure.step("Open shopping cart")
-    def open_cart_page(self, setup_playwright) -> CartPage:
+    def open_cart_page(self) -> CartPage:
+        # This element does not appear when the page is initialized.
+        self.open_cart_button = self.find_element('[data-icon=\'cart-shopping\'], [data-test=\'cart-quantity\'] ]')
         self.click_element(self.open_cart_button)
-        cart_page = CartPage(setup_playwright)
+        cart_page = CartPage(self.page)
         return cart_page
+
+    @allure.step("Open tool page")
+    def open_tool_page(self, url) -> ToolPage:
+        self.navigate_to(url)
+        tool_page = ToolPage(self.page)
+        return tool_page
