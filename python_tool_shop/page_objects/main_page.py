@@ -32,7 +32,8 @@ class MainPage(BasePage):
         # use min/max filter if exists
         # wait for text Searched for: hammer
         self.wait_to_see_in_page('[data-test="search-term"]')
-        self.set_slider(max_price)
+        # self.set_slider(max_price)
+        self.set_price_range_slider(min_value=5, max_value=max_price)
         # get  first 5 (limit) items that have a price <= max_price
         item_list = self.get_items_url_list(limit)
         # in case of less than 5 items exist:
@@ -83,3 +84,45 @@ class MainPage(BasePage):
         self.navigate_to(url)
         tool_page = ToolPage(self.page)
         return tool_page
+
+    @allure.step("Set the price range slider")
+    def set_price_range_slider(self, min_value=5, max_value=30):
+        # Locate both slider handles
+        sliders = self.page.locator('[role="slider"]').all()
+
+        if len(sliders) >= 2:
+            slider_min = sliders[0]  # First slider is minimum
+            slider_max = sliders[1]  # Second slider is maximum
+
+            # Set MINIMUM slider to specified value
+            slider_min.focus()
+            self.page.keyboard.press('Home')  # Reset to start (0)
+            self.page.wait_for_timeout(100)
+
+            # Press right arrow key to reach the minimum value
+            for i in range(min_value):
+                self.page.keyboard.press('ArrowRight')
+
+            self.page.wait_for_timeout(200)
+
+            # Set MAXIMUM slider to specified value
+            slider_max.focus()
+            self.page.keyboard.press('Home')  # Reset to start (0)
+            self.page.wait_for_timeout(100)
+
+            # Press right arrow key to reach the maximum value
+            for i in range(max_value):
+                self.page.keyboard.press('ArrowRight')
+
+            self.page.wait_for_timeout(300)
+
+            # Verify the values
+            min_display = self.page.locator('span.ngx-slider-model-value').first.text_content()
+            max_display = self.page.locator('span.ngx-slider-model-high').first.text_content()
+
+            self.logger.info(f"Slider values set successfully!")
+            self.logger.info(f"Minimum: {min_display}")
+            self.logger.info(f"Maximum: {max_display}")
+
+            # Keep browser open for a few seconds to see the result
+            self.page.wait_for_timeout(3000)
