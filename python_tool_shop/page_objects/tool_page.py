@@ -16,7 +16,7 @@ class ToolPage(BasePage):
     def add_item_to_cart(self, url:str) -> None:
         self.page.wait_for_load_state("load")
         # take screenshot foreach selected item
-        take_screenshot(self.page, name=url[-27:])
+        take_screenshot(self, name=url[-27:])
         self.click_element(self.add_to_cart_button)
         self.wait_for_toaster_message_to_appear()
         # go back to search page
