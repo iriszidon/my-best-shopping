@@ -1,6 +1,8 @@
 import allure
 import pytest
 import os
+
+from helper.utils import take_screenshot
 from page_objects.main_page import MainPage
 from page_objects.base_page import BasePage
 
@@ -20,10 +22,12 @@ def test_end_to_end_search_filter_add_sum(tool_name, max_price, limit, setup_pla
     cart_page.assert_cart_total_not_exceeds(limit * max_price, len(items_urls), total_price)
 
 @allure.description("Click on 2 elements in the main page")
+@pytest.mark.good_test
 def test_print_locator(setup_playwright) -> None:
     base_page = navigate_to_page(setup_playwright)
     main_page = MainPage(base_page.page)
     main_page.click_element(main_page.contact_button)
+    take_screenshot(main_page, "some_screen_shot")
     main_page.click_element(main_page.home_page_button)
 
 def navigate_to_page(setup_playwright)-> BasePage:
