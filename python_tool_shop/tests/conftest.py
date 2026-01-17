@@ -1,6 +1,7 @@
 from venv import logger
 
 import pytest
+
 # from python_tool_shop.helper.config import URL
 from python_tool_shop.helper.utils import log_message, LogLevel
 from typing import Any
@@ -10,9 +11,8 @@ import os
 BROWSER_MAME = os.environ.get("BROWSER_MAME")
 
 
-
 @pytest.fixture()
-def setup_playwright(playwright, request, browser_name = BROWSER_MAME):
+def setup_playwright(playwright, request, browser_name=BROWSER_MAME):
     browser = get_browser(playwright, request, browser_name)
     page = browser.new_page()  # This will open the page
     try:
@@ -22,7 +22,7 @@ def setup_playwright(playwright, request, browser_name = BROWSER_MAME):
         browser.close()
 
 
-def get_browser(playwright, request, browser_name = "chrome") -> Any:
+def get_browser(playwright, request, browser_name="chrome") -> Any:
     headed = request.config.getoption(
         "--headed", default=False
     )  # determine when will the UI be displayed
@@ -33,9 +33,10 @@ def get_browser(playwright, request, browser_name = "chrome") -> Any:
     elif browser_name == "webkit":
         browser = playwright.webkit.launch(headless=not headed, slow_mo=750)
     else:
-        raise ValueError("Browser name must be either 'chrome' 'webkit', or 'firefox'. Please check your BROWSER_NAME var in your .env file.")
+        raise ValueError(
+            "Browser name must be either 'chrome' 'webkit', or 'firefox'. Please check your BROWSER_NAME var in your .env file."
+        )
     return browser
-
 
 
 # @pytest.fixture()
