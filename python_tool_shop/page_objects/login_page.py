@@ -16,7 +16,7 @@ class LoginPage(BasePage):
         self.register_your_account_button = self.find_element("[data-test='register-link'], [routerlink=/auth/register], [aria-label='Register your account']")
 
 
-    @allure.step("login")
+    @allure.step("Login to the website")
     def perform_login(self, username: str, password: str) -> None:
         log_message(self.logger, "performing login", level=LogLevel.INFO)
         self.type_text(self.username_field, username)

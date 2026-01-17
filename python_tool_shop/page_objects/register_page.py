@@ -22,7 +22,7 @@ class RegisterPage(BasePage):
         self.register_button = self.find_element("[data-test='register-submit'], [type=submit], //button[text()='Register ']")
 
 
-    @allure.step("register")
+    @allure.step("Register to the tool shop website")
     def perform_registration(self, username: str, last_name: str) -> None:
         log_message(self.logger, "performing login", level=LogLevel.INFO)
         self.type_text(self.first_name_field, username)
