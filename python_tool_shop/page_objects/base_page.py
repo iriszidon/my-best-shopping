@@ -28,7 +28,7 @@ class BasePage:
                 f"action failed {action_name} with arguments {args}",
                 LogLevel.ERROR,
             )
-            take_screenshot(self.page, action_name)
+            take_screenshot(self, action_name)
             raise
 
     def find_element(self, loc_str:str) -> Locator:
