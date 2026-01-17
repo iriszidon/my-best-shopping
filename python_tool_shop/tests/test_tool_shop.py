@@ -30,6 +30,17 @@ def test_print_locator(setup_playwright) -> None:
     take_screenshot(main_page, "some_screen_shot")
     main_page.click_element(main_page.home_page_button)
 
+@allure.description("Click again on 2 elements in the main page")
+@pytest.mark.good_test
+def test_dummy_test_for_parallel_run(setup_playwright) -> None:
+    base_page = navigate_to_page(setup_playwright)
+    main_page = MainPage(base_page.page)
+    main_page.click_element(main_page.contact_button)
+    take_screenshot(main_page, "some_screen_shot")
+    main_page.click_element(main_page.home_page_button)
+
+
+
 def navigate_to_page(setup_playwright)-> BasePage:
     base_page = BasePage(setup_playwright)
     base_url = os.environ.get("BASE_URL")
