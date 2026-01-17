@@ -3,6 +3,7 @@ from typing import List
 import allure
 import os
 
+from python_tool_shop.page_objects.login_page import LoginPage
 from python_tool_shop.page_objects.tool_page import ToolPage
 from python_tool_shop.page_objects.cart_page import CartPage
 from python_tool_shop.page_objects.base_page import BasePage
@@ -18,11 +19,10 @@ class MainPage(BasePage):
         self.search_text_box = self.find_element("#search-query, [data-test='search-query'], [placeholder=Search]")
         self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
         self.contact_button= self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
+        self.sign_in_button= self.find_element("[data-test='nav-sign-in'], [href='/auth/login'],[routerlink='/auth/login']")
 
-    def login(self):
-        pass
 
-    @allure.step("search items by name under price")
+    @allure.step("Search items by name under price")
     def search_items_by_name_under_price(
         self, query: str, max_price: int, limit=5
     ) -> List[str]:
@@ -39,14 +39,14 @@ class MainPage(BasePage):
         # in case of less than 5 items exist:
         return item_list
 
-    @allure.step("add items to cart")
+    @allure.step("Add items to cart")
     def add_items_to_cart(self, urls: List[str]) -> None:
         for url in urls:
             tool_page = self.open_tool_page(url)
             tool_page.add_item_to_cart(url)
 
 
-    @allure.step("set the slider to narrow the price range")
+    @allure.step("Set the slider to narrow the price range")
     def set_slider(self, target) -> None:
         slider = self.page.locator(".ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-max")
         cur_val = 100
@@ -78,6 +78,13 @@ class MainPage(BasePage):
         self.click_element(self.open_cart_button)
         cart_page = CartPage(self.page)
         return cart_page
+
+    @allure.step("Open login page")
+    def open_login_page(self) -> LoginPage:
+        self.click_element(self.sign_in_button)
+        self.page.wait_for_load_state("networkidle")
+        login_page = LoginPage(self.page)
+        return login_page
 
     @allure.step("Open tool page")
     def open_tool_page(self, url) -> ToolPage:
