@@ -5,6 +5,7 @@ import os
 from helper.utils import take_screenshot
 from page_objects.main_page import MainPage
 from page_objects.base_page import BasePage
+from page_objects.login_page import LoginPage
 
 
 @allure.description("Test for tool shop website")
@@ -36,14 +37,16 @@ def test_print_locator(setup_playwright) -> None:
     main_page.click_element(main_page.home_page_button)
 
 
-@allure.description("Click again on 2 elements in the main page")
+@allure.description("Open login page")
 @pytest.mark.good_test
-def test_dummy_test_for_parallel_run(setup_playwright) -> None:
+def test_open_login_page(setup_playwright) -> None:
     base_page = navigate_to_page(setup_playwright)
     main_page = MainPage(base_page.page)
-    main_page.click_element(main_page.contact_button)
+    login_page = main_page.open_login_page()
+    register_page = login_page.open_register_your_account_page()
+    register_page.perform_registration("Testx", "Testy")
     take_screenshot(main_page, "some_screen_shot")
-    main_page.click_element(main_page.home_page_button)
+    login_page.perform_login("iriso@finonex.com", "Viva#100")
 
 
 def navigate_to_page(setup_playwright) -> BasePage:
