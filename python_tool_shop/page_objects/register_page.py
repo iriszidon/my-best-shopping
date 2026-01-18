@@ -2,6 +2,7 @@ import allure
 from playwright.sync_api import Page
 from python_tool_shop.page_objects.base_page import BasePage
 from python_tool_shop.helper.utils import log_message, LogLevel, take_screenshot
+from datetime import datetime
 
 
 class RegisterPage(BasePage):
@@ -23,7 +24,7 @@ class RegisterPage(BasePage):
 
 
     @allure.step("Register to the tool shop website")
-    def perform_registration(self, username: str, last_name: str) -> None:
+    def perform_registration(self, user_email,  username: str, last_name: str) -> None:
         log_message(self.logger, "performing login", level=LogLevel.INFO)
         self.type_text(self.first_name_field, username)
         self.type_text(self.last_name_field, last_name)
@@ -35,10 +36,17 @@ class RegisterPage(BasePage):
         self.page.locator('[data-test="country"]').select_option("Albania")
         self.page.wait_for_timeout(500)
         self.type_text(self.phone_field, "05088447743")
-        self.type_text(self.email_address_field, "iriso@finonex.com")
+        self.type_text(self.email_address_field, user_email)
         self.type_text(self.password_field, "Viva#100")
         self.click_element(self.register_button)
         self.page.wait_for_load_state("networkidle")
-        # main_page = None(self.page)
-        # return main_page
+
+
+
+
+    def generate_timestamp_email(self) ->str:
+        timestamp = datetime.now().strftime("%d-%m-%y-%H-%M-%S")
+        email = f"test-{timestamp}@mailinator.com"
+        log_message(self.logger, f"User email is: {email}", level=LogLevel.INFO)
+        return email
 
