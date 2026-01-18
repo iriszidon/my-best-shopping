@@ -40,8 +40,20 @@ and uncomment lines:
     # BROWSER_NAME=auto
     # MOON_URL=http://moon.aerokube.local
 ```
-
-
+7. To run the tests without moon in parallel, edit conftest.py as follows: Change
+```aiignore
+addopts = -v -s --headed
+```
+to be:
+```aiignore
+addopts = -v -s -n 2 --headed
+```
+so the test will run in 2 threads.
+You can also set the number of threads to auto like this:
+```aiignore
+addopts = -v -s -n auto --headed
+```
+and pytest will determine the number of threads.
 
 
 
