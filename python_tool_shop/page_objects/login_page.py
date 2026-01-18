@@ -23,12 +23,10 @@ class LoginPage(BasePage):
         self.type_text(self.password_field, password)
         self.click_element(self.login_button)
         self.page.wait_for_load_state("networkidle")
-        # if self.login_button.is_visible():
-        #     log_message(self.logger, "Login failed", level=LogLevel.ERROR)
-        #     take_screenshot(self.page, "login_failed")
-        #     return None  # return None when the login fails
-        # main_page = MainPage(self.page)
-        # return main_page  # Return MainPage only if the login succeeded
+        is_login_button_visible = self.login_button.is_visible()
+        assert not is_login_button_visible, "Login button should not be visible after login."
+
+
 
     @allure.step("Click on register your account link")
     def open_register_your_account_page(self) -> RegisterPage:
@@ -36,3 +34,4 @@ class LoginPage(BasePage):
         self.click_element(self.register_your_account_button)
         registration_page = RegisterPage(self.page)
         return registration_page
+
