@@ -15,10 +15,9 @@ class MainPage(BasePage):
         # All locators are defined when an instance of the page is created.
         self.search_button = self.find_element("[data-test='search-submit'], button.btn.btn-secondary:has-text('Search')")
         self.home_page_button = self.find_element("[data-test='nav-home'], a.nav-link.active, [aria-current='page']")
-        self.navigation_bar = self.find_element("#navbarSupportedContent")
         self.search_text_box = self.find_element("#search-query, [data-test='search-query'], [placeholder=Search]")
-        self.top_bar = self.page.get_by_text("Practice Black Box Testing & Bug Hunting")
-        self.contact_button= self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
+        # This button can demonstrate an element detection that will fail in the 1st attempt.
+        # self.contact_button= self.find_element("[data-test='xxx'], [data-test='nav-contact'],[routerlink='/contact']")
         self.sign_in_button= self.find_element("[data-test='nav-sign-in'], [href='/auth/login'],[routerlink='/auth/login']")
 
 
@@ -45,19 +44,6 @@ class MainPage(BasePage):
             tool_page = self.open_tool_page(url)
             tool_page.add_item_to_cart(url)
 
-
-    @allure.step("Set the slider to narrow the price range")
-    def set_slider(self, target) -> None:
-        slider = self.page.locator(".ngx-slider-span.ngx-slider-pointer.ngx-slider-pointer-max")
-        cur_val = 100
-        # Focus and nudge with ArrowRight until we reach/approach the target
-        slider.focus()
-        # Sometimes sliders change by step=1; guard against infinite loops
-        for _ in range(cur_val):  # upper bound to avoid runaway
-            cur = int(slider.get_attribute("aria-valuenow"))
-            if cur >= target:
-                break
-            slider.press("ArrowLeft")
 
     @allure.step("Add items to the wish list")
     def get_items_url_list(self, limit: int) -> List[str]:
