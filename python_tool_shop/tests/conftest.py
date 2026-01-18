@@ -65,17 +65,3 @@ def pytest_configure_node(node):
     """
     node.workerinput["allure_report_dir"] = node.config.option.allure_report_dir
 
-
-
-# @pytest.fixture()
-# def setup_playwright(playwright, request):
-#     headed = request.config.getoption(
-#         "--headed", default=False
-#     )  # determine when will the UI be displayed
-#     browser = playwright.chromium.launch(headless=not headed, slow_mo=750)
-#     page = browser.new_page()  # This will open the page
-#     try:
-#         yield page  # use yield and not return because we want to close the browser if the test fails.
-#     finally:
-#         log_message(logger, "closing browser", LogLevel.INFO)
-#         browser.close()

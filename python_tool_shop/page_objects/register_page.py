@@ -1,7 +1,7 @@
 import allure
 from playwright.sync_api import Page
 from python_tool_shop.page_objects.base_page import BasePage
-from python_tool_shop.helper.utils import log_message, LogLevel, take_screenshot
+from python_tool_shop.helper.utils import log_message, LogLevel
 from datetime import datetime
 
 
