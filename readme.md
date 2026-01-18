@@ -11,7 +11,7 @@
    ```
 2. Go to the test folder    
    ```aiignore
-       cd <root folder>\my-best-shopping\pythonProject\python_tool_shop\tests
+    cd <root folder>\my-best-shopping\pythonProject\python_tool_shop\tests
    ```
 3. Run tests by typing to the command line
    ```aiignore
