@@ -1,5 +1,5 @@
 ## Setup instructions
-1. install dependencies
+1. Install dependencies
     ```aiignore
     pip install -r requirements.txt
    or just install one by one
@@ -13,11 +13,11 @@
    ```aiignore
        cd <root folder>\my-best-shopping\pythonProject\python_tool_shop\tests
    ```
-3. run tests by typing to the command line
+3. Run tests by typing to the command line
    ```aiignore
     pytest -m ness_task
    ```
-4. generate report by typing this line command line, hit the TAB key to select the directory
+4. Generate report by typing this line command line, hit the TAB key to select the directory
    ```aiignore
     allure serve allure-results 
    ```
