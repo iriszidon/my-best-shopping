@@ -1,11 +1,7 @@
 import logging
-from asyncio import timeout
-from concurrent.interpreters import create
-
 from playwright.sync_api import Page, Locator, expect
 from typing import List
 from python_tool_shop.helper.utils import LogLevel
-
 from python_tool_shop.helper.utils import take_screenshot, log_message
 
 
