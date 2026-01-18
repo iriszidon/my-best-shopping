@@ -19,8 +19,23 @@
    ```
 4. generate report by typing this line command line, hit the TAB key to select the directory
    ```bash
-    allure serve allure-results
+    allure serve allure-results 
    ```
+    for example: 
+    ```bash
+    allure serve .\allure-results-20260117_215958\
+    ```
+5. To change the browser, go to pytest.ini and update: 
+```bash
+    BROWSER_NAME=firefox
+ ```
+to be:
+```bash
+    BROWSER_NAME=webkit 
+    BROWSER_NAME=chrome
+ ```
+
+
 
 
 
