@@ -2,10 +2,9 @@ import allure
 import pytest
 import os
 
-from helper.utils import take_screenshot, log_message, LogLevel
+from helper.utils import take_screenshot
 from page_objects.main_page import MainPage
 from page_objects.base_page import BasePage
-from page_objects.login_page import LoginPage
 
 
 @allure.description("Test for tool shop website")
@@ -27,19 +26,9 @@ def test_end_to_end_search_filter_add_sum(
     )
 
 
-@allure.description("Click on 2 elements in the main page")
-@pytest.mark.good_test
-def test_print_locator(setup_playwright) -> None:
-    base_page = navigate_to_page(setup_playwright)
-    main_page = MainPage(base_page.page)
-    main_page.click_element(main_page.contact_button)
-    take_screenshot(main_page, "main_page_screen_shot")
-    main_page.click_element(main_page.home_page_button)
-
-
 @allure.description("Open login page")
-@pytest.mark.good_test
-def test_open_login_page(setup_playwright) -> None:
+@pytest.mark.ness_task
+def test_perform_login(setup_playwright) -> None:
     base_page = navigate_to_page(setup_playwright)
     main_page = MainPage(base_page.page)
     login_page = main_page.open_login_page()
