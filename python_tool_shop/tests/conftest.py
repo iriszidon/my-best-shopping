@@ -144,3 +144,12 @@ def pytest_configure_node(node):
     Push the chosen allure_report_dir to every worker.
     """
     node.workerinput["allure_report_dir"] = node.config.option.allure_report_dir
+
+@pytest.fixture(autouse=True)
+def tear_down():
+    """
+    Teardown fixture that runs after every test.
+    Prints "done" at the end of each test.
+    """
+    yield
+    print("done")
