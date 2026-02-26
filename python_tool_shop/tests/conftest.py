@@ -14,7 +14,7 @@ def setup_playwright(playwright, request):
     headed = request.config.getoption(
         "--headed", default=False
     )  # determine when will the UI be displayed
-    browser = playwright.chromium.launch(headless=not headed, slow_mo=500)
+    browser = playwright.chromium.launch(headless=not headed, slow_mo=1000)
     page = browser.new_page()  # This will open the page
     try:
         yield page  # use yield and not return because we want to close the browser if the test fails.
