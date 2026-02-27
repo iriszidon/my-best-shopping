@@ -9,6 +9,7 @@ playwright = "*"
 pytest-playwright = "*"
 allure-pytest = "*"
 black = "*"
+pytest-xdist = "*"
 
 [dev-packages]
 
